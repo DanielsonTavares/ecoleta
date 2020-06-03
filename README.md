@@ -32,6 +32,7 @@ eColeta
 
 ## 💻 Instalação
 
+A. Backend
 1. Clone este repositório usando <code>https://github.com/DanielsonTavares/ecoleta.git</code>
 2. Vá para o diretório responsável pelo backend: <code>cd server</code>
 3. Execute <code>npm install</code> para instalar as dependencias
