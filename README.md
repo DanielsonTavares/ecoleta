@@ -30,7 +30,7 @@ eColeta
 - 🔷 **Typescript** — A typed superset of JavaScript that compiles to plain JavaScript
 - 📄 **Knex** — A SQL query builder for a lot of SQL databases
 
-## 💻 Getting started
+## 💻 Instalação
 
 1. Clone este repositório usando <code>https://github.com/DanielsonTavares/ecoleta.git</code>
 2. Vá para o diretório responsável pelo backend: <code>cd server</code>
@@ -51,8 +51,8 @@ eColeta
 
 <p>After the merge of your pull request is done, you can delete your branch.</p> -->
 
-## License
+## Licença
 
-This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/licenses/MIT) page for details.
+Este projeto está licenciado sob a MIT License - veja a página [LICENSE](https://opensource.org/licenses/MIT) para mais detalhes.
 
-Made with 💜 by <a href="http://github.com/DanielsonTavares">Danielson Tavares</a>
+Feito com 💜 por <a href="http://github.com/DanielsonTavares">Danielson Tavares</a>
