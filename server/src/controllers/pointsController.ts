@@ -4,13 +4,10 @@ import knex from "../database/connection";
 class PointsController {
   async index(request: Request, response: Response) {
     const { city, uf, items } = request.query;
-    console.log(city, uf, items);
 
     const parsedItems = String(items)
       .split(",")
       .map((item) => Number(item.trim()));
-
-    console.log("dan", String(city), String(uf), parsedItems);
 
     const points = await knex("points")
       .join("point_items", "point_id", "=", "points.id")
@@ -93,6 +90,11 @@ class PointsController {
       id: point_id,
       ...point,
     });
+  }
+
+  async all(request: Request, response: Response) {
+    const allPoints = await knex("points").select("id", "name");
+    return response.json(allPoints);
   }
 }
 export default PointsController;
