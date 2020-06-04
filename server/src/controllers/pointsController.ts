@@ -2,6 +2,22 @@ import { Request, Response } from "express";
 import knex from "../database/connection";
 
 class PointsController {
+  async show(request: Request, response: Response) {
+    const { id } = request.params; //Desestruturação: equivale a id = request.params.id;
+    const point = await knex("points").where("id", id).first(); //o .first() está sendo utilizado para garantir que não seja retornado um array
+
+    if (!point) {
+      return response.status(400).json({ message: "Point not found" });
+    }
+
+    const items = await knex("items")
+      .join("point_items", "items.id", "=", "point_items.item_id")
+      .where("point_items.point_id", id)
+      .select("items.title");
+
+    return response.json({ point, items });
+  }
+
   async create(request: Request, response: Response) {
     /*  Utilizando desestruturação para atribuir cada valor vindo em request.body 
     para uma constante específica. É o mesmo que atribuir do modo abaixo:
