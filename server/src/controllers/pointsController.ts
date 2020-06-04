@@ -10,8 +10,10 @@ class PointsController {
       .split(",")
       .map((item) => Number(item.trim()));
 
+    console.log("dan", String(city), String(uf), parsedItems);
+
     const points = await knex("points")
-      .join("point_items", "point_id", "=", "point_items.point_id")
+      .join("point_items", "point_id", "=", "points.id")
       .whereIn("point_items.item_id", parsedItems)
       .where("city", String(city))
       .where("uf", String(uf))
