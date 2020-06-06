@@ -44,3 +44,7 @@
   aflet
 
 - axios - Promise based HTTP client for the browser and node.js: https://www.npmjs.com/package/axios
+
+#React-Native
+
+- Instalando fontes: npm install expo-font @expo-google-fonts/ubuntu @expo-google-fonts/roboto
