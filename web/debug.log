@@ -14,3 +14,4 @@
 [0605/011434.052:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0605/011434.052:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0605/011434.052:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0605/223242.943:ERROR:registration_protocol_win.cc(131)] TransactNamedPipe: O pipe foi finalizado. (0x6D)
