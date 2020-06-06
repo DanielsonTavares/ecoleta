@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { Map, TileLayer, Marker } from "react-leaflet";
 import api from "../../services/api";
+import Axios from "axios";
 
 const CreatePoint = () => {
   //criando o estado para o componente
@@ -15,17 +16,35 @@ const CreatePoint = () => {
     image_url: string;
   }
 
+  interface IBGEUFResponse {
+    sigla: string;
+  }
+
   const [items, setItems] = useState<Item[]>([]);
+  const [ufs, setUfs] = useState<string[]>([]);
 
   /*useEffect:o  primeiro parâmetro é uma função a ser executada quando houver
   alguma alteração no estado do segundo parâmetro. Ao informar um array vazio
   no segundo parâmetro, faz com que a função do primeiro parâmetro seja executada
   uma única vez*/
+
   useEffect(() => {
     api.get("items").then((response) => {
       setItems(response.data);
     });
   }, []);
+
+  useEffect(() => {
+    Axios.get<IBGEUFResponse[]>(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+    ).then((response) => {
+      const ufInitials = response.data.map((uf) => {
+        return uf.sigla;
+      });
+      setUfs(ufInitials);
+    });
+  }, []);
+
   return (
     <div id="page-create-point">
       <header>
@@ -85,6 +104,13 @@ const CreatePoint = () => {
               <label htmlFor="uf">Estado (UF)</label>
               <select name="uf" id="uf">
                 <option value="0">Selecione uma UF</option>
+                {ufs.map((uf) => {
+                  return (
+                    <option value={uf} key={uf}>
+                      {uf}
+                    </option>
+                  );
+                })}
               </select>
             </div>
             <div className="field">
