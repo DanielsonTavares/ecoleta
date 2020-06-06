@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import "./styles.css";
 import logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
@@ -20,8 +20,23 @@ const CreatePoint = () => {
     sigla: string;
   }
 
+  interface IBGECidadeResponse {
+    nome: string;
+  }
+
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
+  const [selectedUf, setSelectedUf] = useState("0");
+  const [cities, setCities] = useState<string[]>([]);
+  const [selectedCity, setSelectedCity] = useState("0");
+
+  const handleSelectedUf = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUf(event.target.value);
+  };
+
+  const handleSelectedCity = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCity(event.target.value);
+  };
 
   /*useEffect:o  primeiro parâmetro é uma função a ser executada quando houver
   alguma alteração no estado do segundo parâmetro. Ao informar um array vazio
@@ -44,6 +59,23 @@ const CreatePoint = () => {
       setUfs(ufInitials);
     });
   }, []);
+
+  useEffect(() => {
+    if (selectedUf === "0") {
+      return;
+    }
+
+    Axios.get<IBGECidadeResponse[]>(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUf}/municipios`
+    ).then((response) => {
+      const cityNames = response.data.map((city) => {
+        return city.nome;
+      });
+
+      //console.log(listacities);
+      setCities(cityNames);
+    });
+  }, [selectedUf]);
 
   return (
     <div id="page-create-point">
@@ -102,7 +134,12 @@ const CreatePoint = () => {
           <div className="field-group">
             <div className="field">
               <label htmlFor="uf">Estado (UF)</label>
-              <select name="uf" id="uf">
+              <select
+                name="uf"
+                id="uf"
+                value={selectedUf}
+                onChange={handleSelectedUf}
+              >
                 <option value="0">Selecione uma UF</option>
                 {ufs.map((uf) => {
                   return (
@@ -115,8 +152,20 @@ const CreatePoint = () => {
             </div>
             <div className="field">
               <label htmlFor="city">Cidade</label>
-              <select name="city" id="city">
+              <select
+                name="city"
+                id="city"
+                value={selectedCity}
+                onChange={handleSelectedCity}
+              >
                 <option value="0">Selecione uma cidade</option>
+                {cities.map((cidade) => {
+                  return (
+                    <option value={cidade} key={cidade}>
+                      {cidade}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
