@@ -36,4 +36,11 @@
 
 # Pacotes interessantes
 
-react-icons - https://react-icons.github.io/react-icons/
+- react-icons - https://react-icons.github.io/react-icons/
+
+- leaflet - biblioteca javascript open-source para mapas interativos: https://leafletjs.com/ e
+  https://react-leaflet.js.org/
+  para instalar os dois pacotes, use: npm install leaflet react-le
+  aflet
+
+- axios - Promise based HTTP client for the browser and node.js: https://www.npmjs.com/package/axios
