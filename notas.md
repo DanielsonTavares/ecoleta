@@ -49,5 +49,11 @@
 
 - Instalando fontes: npm install expo-font @expo-google-fonts/ubuntu @expo-google-fonts/roboto
 - React Navigation:
-- - npm install @react-navigation/native
-- - expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+  - npm install @react-navigation/native
+  - expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+- Usar mapas com o expo:
+  - expo install react-native-maps
+- Constants do Expo
+  - expo install expo-constants
+- Componente para imagens SVG
+  - expo install react-native-svg
