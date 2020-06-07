@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ImageBackground } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import { Feather as Icon } from "@expo/vector-icons";
 
 const Home = () => {
   return (
@@ -14,6 +16,17 @@ const Home = () => {
         <Text style={styles.description}>
           Ajudamos pessoas a encontratem pontos de coleta de forma eficiente.
         </Text>
+      </View>
+
+      <View style={styles.footer}>
+        <RectButton style={styles.button} onPress={() => {}}>
+          <View style={styles.buttonIcon}>
+            <Text>
+              <Icon name="arrow-right" color="#fff" size={24} />
+            </Text>
+          </View>
+          <Text style={styles.buttonText}>Entrar</Text>
+        </RectButton>
       </View>
     </ImageBackground>
   );
