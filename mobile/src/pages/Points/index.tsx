@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Constants from "expo-constants";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Feather as Icon } from "@expo/vector-icons";
 
 import { useNavigation } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
 import { SvgUri } from "react-native-svg";
+import * as Location from "expo-location";
 import api from "../../service/api";
 
 interface Item {
@@ -15,15 +16,62 @@ interface Item {
   image_url: string;
 }
 
+interface Point {
+  id: number;
+  name: string;
+  image: string;
+  latitude: number;
+  longitude: number;
+}
+
 const Points = () => {
   const navigation = useNavigation();
   const [items, setItems] = useState<Item[]>([]);
+  const [points, setPoints] = useState<Point[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([
+    0,
+    0,
+  ]);
+
+  useEffect(() => {
+    async function loadPosition() {
+      const { status } = await Location.requestPermissionsAsync();
+
+      if (status !== "granted") {
+        Alert.alert(
+          "Oooops...",
+          "Precisamos de sua permissão para obter sua localização"
+        );
+        return;
+      }
+
+      const location = await Location.getCurrentPositionAsync();
+      const { latitude, longitude } = location.coords;
+      setInitialPosition([latitude, longitude]);
+    }
+
+    loadPosition();
+  }, []);
 
   useEffect(() => {
     api.get("items").then((response) => {
       setItems(response.data);
     });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get("points", {
+        params: {
+          city: "São Gonçalo",
+          uf: "RJ",
+          item: [3, 4],
+        },
+      })
+      .then((response) => {
+        setPoints(response.data);
+      });
   }, []);
 
   function handleNavigateBack() {
@@ -57,33 +105,40 @@ const Points = () => {
         </Text>
 
         <View style={styles.mapContainer}>
-          <MapView
-            style={styles.map}
-            initialRegion={{
-              latitude: -22.8318517,
-              longitude: -43.0292044,
-              //Zoom
-              latitudeDelta: 0.014,
-              longitudeDelta: 0.014,
-            }}
-          >
-            <Marker
-              style={styles.mapMarker}
-              onPress={handleNavigateToDetail}
-              coordinate={{ latitude: -22.8318517, longitude: -43.0292044 }}
+          {initialPosition[0] !== 0 && (
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: initialPosition[0],
+                longitude: initialPosition[1],
+                //Zoom
+                latitudeDelta: 0.014,
+                longitudeDelta: 0.014,
+              }}
             >
-              <View style={styles.mapMarkerContainer}>
-                <Image
-                  style={styles.mapMarkerImage}
-                  source={{
-                    uri:
-                      "https://images.unsplash.com/photo-1556767576-5ec41e3239ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
+              {points.map((point) => (
+                <Marker
+                  key={String(point.id)}
+                  style={styles.mapMarker}
+                  onPress={handleNavigateToDetail}
+                  coordinate={{
+                    latitude: point.latitude,
+                    longitude: point.longitude,
                   }}
-                />
-                <Text style={styles.mapMarkerTitle}>Mercado</Text>
-              </View>
-            </Marker>
-          </MapView>
+                >
+                  <View style={styles.mapMarkerContainer}>
+                    <Image
+                      style={styles.mapMarkerImage}
+                      source={{
+                        uri: point.image,
+                      }}
+                    />
+                    <Text style={styles.mapMarkerTitle}>{point.name}</Text>
+                  </View>
+                </Marker>
+              ))}
+            </MapView>
+          )}
         </View>
       </View>
 

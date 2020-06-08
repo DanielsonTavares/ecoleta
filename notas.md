@@ -57,3 +57,5 @@
   - expo install expo-constants
 - Componente para imagens SVG
   - expo install react-native-svg
+- Pacote de geolocalização do expo
+  - expo install expo-location
