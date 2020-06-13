@@ -8,6 +8,12 @@
 - para rodar um script: npx ts-node src/server.ts (npm run dev)
 - para monitorar modificações durante o desenvolvimento: npm install ts-node-dev -D
 
+## Uploado de arquivos
+
+- Utilizar pacote multer:
+  -- npm install multer
+  -- Instalando as definições de tipos: npm install @types/multer -D
+
 ---
 
 # Acesso ao Banco de Dados
