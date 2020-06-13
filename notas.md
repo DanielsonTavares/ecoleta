@@ -13,6 +13,7 @@
 - Utilizar pacote multer:
   -- npm install multer
   -- Instalando as definições de tipos: npm install @types/multer -D
+  -- havendo necessidade, pode-se implementar a função fileFilter do multer para poder filtar os tipos e tamando de arquivos permitido
 
 ---
 
