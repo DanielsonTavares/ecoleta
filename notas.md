@@ -58,4 +58,7 @@
 - Componente para imagens SVG
   - expo install react-native-svg
 - Pacote de geolocalização do expo
+
   - expo install expo-location
+
+- Desafio: utilizar o pacote react-native-picker-select com consulta ao IBGE
